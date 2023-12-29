@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">compose practice</string>
     <string name="Good_Word">The Word of God Is Good</string>
+    <string name="app_logo">app_logo</string>
+    <string name="JNORIGINS">JNORIGINS</string>
+    <string name="Find">Find hospital</string>
+    <string name="login">Login</string>
+    <string name="Register">Register</string>
 </resources>
