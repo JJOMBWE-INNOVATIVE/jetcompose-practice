@@ -1,6 +1,7 @@
-package com.example.composepractice
+package com.example.composepractice.Screens
 
 import android.content.res.Configuration
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,7 +40,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.composepractice.Util.LoginTextField
+import com.example.composepractice.R
+import com.example.composepractice.Util.SocialMediaLogIn
+import com.example.composepractice.States.rememberImeState
 import com.example.composepractice.ui.theme.Black
 import com.example.composepractice.ui.theme.BlueGray
 import com.example.composepractice.ui.theme.ComposePracticeTheme
@@ -75,10 +80,19 @@ private fun LandScapeLoginScreen() {
 
 @Composable
 private fun PortraitLoginScreen() {
+    val imeState = rememberImeState()
+    val scrollState = rememberScrollState()
+    LaunchedEffect(
+        key1 = imeState.value,
+    ){
+        if (imeState.value){
+            scrollState.animateScrollTo(scrollState.maxValue, tween(300) )
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(scrollState),
 
 
         ) {

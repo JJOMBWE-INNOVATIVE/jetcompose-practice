@@ -1,4 +1,4 @@
-package com.example.composepractice
+package com.example.composepractice.Util
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth

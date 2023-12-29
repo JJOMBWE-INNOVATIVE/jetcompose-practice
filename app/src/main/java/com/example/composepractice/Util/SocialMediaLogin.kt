@@ -1,4 +1,4 @@
-package com.example.composepractice
+package com.example.composepractice.Util
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image

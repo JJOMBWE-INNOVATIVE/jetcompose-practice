@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.example.composepractice.MainActivity
+import com.example.composepractice.Activity.MainActivity
 
 private val DarkColorScheme = darkColorScheme(
     primary = BlueGray,

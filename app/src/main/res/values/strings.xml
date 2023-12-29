@@ -6,4 +6,6 @@
     <string name="Find">Find hospital</string>
     <string name="login">Login</string>
     <string name="Register">Register</string>
+    <string name="Hospital">Hospital</string>
+    <string name="Finder">Finder</string>
 </resources>

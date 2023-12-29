@@ -1,7 +1,8 @@
-package com.example.composepractice
+package com.example.composepractice.ViewModel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.composepractice.States.MyScreenState
 
 class MyViewModel: ViewModel() {
 

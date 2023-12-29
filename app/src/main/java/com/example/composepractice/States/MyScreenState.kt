@@ -1,4 +1,4 @@
-package com.example.composepractice
+package com.example.composepractice.States
 
 import androidx.compose.runtime.mutableStateOf
 
