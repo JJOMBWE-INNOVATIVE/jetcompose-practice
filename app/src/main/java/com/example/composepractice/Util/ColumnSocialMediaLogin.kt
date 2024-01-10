@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -22,43 +23,43 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.composepractice.R
 import com.example.composepractice.ui.theme.BlueGray
 import com.example.composepractice.ui.theme.LightBlueWhite
 import com.example.composepractice.ui.theme.dimens
 
 
 @Composable
-fun SocialMediaLogIn(
+fun ColumnSocialMediaLogIn(
     modifier: Modifier = Modifier,
     @DrawableRes icon: Int,
-    text: String,
     onClick: () -> Unit
 ) {
 
-    Row(
+    Column(
         modifier = modifier
             .clip(RoundedCornerShape(4.dp))
-            .SocialMedia()
+            .ColumnSocialMedia()
             .clickable { onClick }
             .height(MaterialTheme.dimens.buttonHeight),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
+
         Image(
             painter = painterResource(id = icon),
             contentDescription = null,
             modifier = Modifier.size(16.dp)
         )
-        Spacer(modifier = Modifier.width(5.dp))
-        Text(text = text, style = MaterialTheme.typography.labelMedium.copy(color = Color(0xFF64748B)))
 
     }
 
 }
 
-fun Modifier.SocialMedia() : Modifier = composed {
+fun Modifier.ColumnSocialMedia() : Modifier = composed {
     if(isSystemInDarkTheme()){
         background(Color.Transparent).border(
             width = 1.dp,
@@ -68,4 +69,10 @@ fun Modifier.SocialMedia() : Modifier = composed {
     } else{
        background(LightBlueWhite)
     }
+}
+
+@Preview
+@Composable
+fun ColumnSocialMediaPreview() {
+    SocialMediaLogIn(icon = R.drawable.google, text = "Google\nservices", onClick = {})
 }

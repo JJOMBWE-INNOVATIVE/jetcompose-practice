@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,6 +42,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.composepractice.Navigation.Screen
 import com.example.composepractice.R
 import com.example.composepractice.States.rememberImeState
 import com.example.composepractice.Util.LoginTextField
@@ -54,33 +58,39 @@ import com.example.composepractice.ui.theme.dimens
 
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navController : NavController
+) {
     Surface{
         if(ScreenOrientation == Configuration.ORIENTATION_PORTRAIT){
-            PortraitLoginScreen()
+            PortraitLoginScreen(navController)
         }
         else{
-            LandScapeLoginScreen()
+            LandScapeLoginScreen(navController)
         }
     }
 }
 
 @Composable
-private fun LandScapeLoginScreen() {
+private fun LandScapeLoginScreen(
+    navController: NavController
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 30.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        LogInSection()
+        LogInSection(navController)
         Spacer(modifier = Modifier.height(MaterialTheme.dimens.medium1))
         SocialMediaSection()
     }
 }
 
 @Composable
-private fun PortraitLoginScreen() {
+private fun PortraitLoginScreen(
+    navController: NavController
+) {
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
     LaunchedEffect(
@@ -104,23 +114,35 @@ private fun PortraitLoginScreen() {
                 .fillMaxSize()
                 .padding(horizontal = 30.dp)
         ) {
-            LogInSection()
+            LogInSection(navController)
             Spacer(modifier = Modifier.height(MaterialTheme.dimens.medium1))
             SocialMediaSection()
 
         }
         Spacer(modifier = Modifier.weight(0.8f))
-        CreateAccount()
+        CreateAccount(
+            navController
+        )
         Spacer(modifier = Modifier.weight(0.8f))
     }
 }
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-private fun ColumnScope.CreateAccount() {
+private fun ColumnScope.CreateAccount(
+    navController: NavController
+) {
     val uiColor = if (isSystemInDarkTheme()) Color.White else Color.Black
         Text(
-            modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+            modifier = Modifier
+                .clickable {
+                    navController.navigate(Screen.RegisterScreen.route){
+                        popUpTo(Screen.RegisterScreen.route){
+                            inclusive = true
+                        }
+                    }
+                }
+                .align(alignment = Alignment.CenterHorizontally),
             text = buildAnnotatedString {
             withStyle(
                 style = SpanStyle(
@@ -183,7 +205,9 @@ private fun SocialMediaSection() {
 }
 
 @Composable
-private fun LogInSection() {
+private fun LogInSection(
+    navController: NavController
+) {
     LoginTextField(
         modifier = Modifier.fillMaxWidth(),
         label = "Email",
@@ -200,7 +224,7 @@ private fun LogInSection() {
         modifier = Modifier
             .fillMaxWidth()
             .height(MaterialTheme.dimens.buttonHeight),
-        onClick = { /*TODO*/ },
+        onClick = {  navController.navigate(Screen.HomeScreen.route) },
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isSystemInDarkTheme()) BlueGray else Black,
             contentColor = Color.White,
@@ -274,6 +298,6 @@ private fun TopSection() {
 @Composable
 fun LoginScreenPreview() {
     ComposePracticeTheme {
-        LoginScreen()
+        LoginScreen(navController = rememberNavController())
     }
 }

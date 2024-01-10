@@ -3,6 +3,7 @@ package com.example.composepractice.Screens
 import android.content.res.Configuration
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,6 +41,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.composepractice.Navigation.Screen
 import com.example.composepractice.Util.LoginTextField
 import com.example.composepractice.R
 import com.example.composepractice.Util.SocialMediaLogIn
@@ -53,33 +57,41 @@ import com.example.composepractice.ui.theme.dimens
 
 
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(
+    navController: NavController
+) {
     Surface{
         if(ScreenOrientation == Configuration.ORIENTATION_PORTRAIT){
-            PortraitLoginScreen()
+            PortraitLoginScreen( navController)
         }
         else{
-            LandScapeLoginScreen()
+            LandScapeLoginScreen(
+                navController
+            )
         }
     }
 }
 
 @Composable
-private fun LandScapeLoginScreen() {
+private fun LandScapeLoginScreen(
+    navController: NavController
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 30.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        RegisterSection()
+        RegisterSection(navController)
         Spacer(modifier = Modifier.height(MaterialTheme.dimens.medium1))
         //SocialMediaSection()
     }
 }
 
 @Composable
-private fun PortraitLoginScreen() {
+private fun PortraitLoginScreen(
+    navController: NavController
+) {
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
     LaunchedEffect(
@@ -103,11 +115,11 @@ private fun PortraitLoginScreen() {
                 .fillMaxSize()
                 .padding(horizontal = 30.dp)
         ) {
-            RegisterSection()
+            RegisterSection( navController)
             Spacer(modifier = Modifier.height(MaterialTheme.dimens.medium1))
             //SocialMediaSection()
             //Spacer(modifier = Modifier.weight(0.8f))
-            LoginIntoAccount()
+            LoginIntoAccount(navController)
            // Spacer(modifier = Modifier.weight(0.3f))
 
         }
@@ -116,10 +128,16 @@ private fun PortraitLoginScreen() {
 }
 
 @Composable
-private fun ColumnScope.LoginIntoAccount() {
+private fun ColumnScope.LoginIntoAccount(
+    navController: NavController
+) {
     val uiColor = if (isSystemInDarkTheme()) Color.White else Color.Black
     Text(
-        modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+        modifier = Modifier
+            .clickable {
+                navController.navigate(Screen.LoginScreen.route)
+            }
+            .align(alignment = Alignment.CenterHorizontally),
         text = buildAnnotatedString {
             withStyle(
                 style = SpanStyle(
@@ -182,7 +200,9 @@ private fun SocialMediaSection() {
 }
 
 @Composable
-private fun RegisterSection() {
+private fun RegisterSection(
+    navController: NavController
+) {
     LoginTextField(
         modifier = Modifier.fillMaxWidth(),
         label = "Name",
@@ -211,7 +231,7 @@ private fun RegisterSection() {
         modifier = Modifier
             .fillMaxWidth()
             .height(MaterialTheme.dimens.buttonHeight),
-        onClick = { /*TODO*/ },
+        onClick = {   navController.navigate(Screen.LoginScreen.route) },
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isSystemInDarkTheme()) BlueGray else Black,
             contentColor = Color.White,
@@ -285,6 +305,6 @@ private fun TopSection() {
 @Composable
 fun RegisterScreenPreview() {
     ComposePracticeTheme {
-        RegisterScreen()
+        RegisterScreen(navController = rememberNavController())
     }
 }

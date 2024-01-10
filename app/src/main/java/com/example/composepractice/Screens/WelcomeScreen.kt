@@ -1,6 +1,7 @@
 package com.example.composepractice.Screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.composepractice.Navigation.Screen
 import com.example.composepractice.R
 import com.example.composepractice.Util.MyButton
 import com.example.composepractice.ui.theme.BlueGray
@@ -33,66 +37,84 @@ import com.example.composepractice.ui.theme.Roboto
 
 
 @Composable
-fun WelcomeScreen()
+fun WelcomeScreen(
+    navController: NavController
+)
  {
  Surface {
-     Column(
-         modifier = Modifier
-             .padding(horizontal = 10.dp, vertical = 30.dp)
-             .fillMaxSize(),
-         verticalArrangement = Arrangement.Top,
-         horizontalAlignment = Alignment.Start
-     ) {
-         val uiColor = if (isSystemInDarkTheme()) Color.White else Color.Black
-         Text(
-             text = stringResource(id = R.string.Hospital),
-             style = MaterialTheme.typography.headlineMedium,
-             color = uiColor
-         )
-         Text(
-             text = stringResource(id = R.string.Finder),
-             style = MaterialTheme.typography.headlineSmall,
-             color = uiColor
-         )
-         Spacer(modifier = Modifier.height(10.dp))
-         Image(
-             modifier = Modifier
-                 .clip(CircleShape),
-             painter = painterResource(id = R.drawable.hosp_building),
-             contentDescription = null
-         )
-         Spacer(modifier = Modifier.height(10.dp))
-         Text(
-             text = "Find Hospitals",
-             style = MaterialTheme.typography.headlineSmall,
-             color = uiColor
-         )
-         Text(
-             text = "Hospital Finder is the ultimate app for finding hospitals in your area." +
-                     "It provides detailed information about the location, services and " +
-                     "contact information of the hospitals around you ",
-             style = MaterialTheme.typography.bodyLarge,
-             color = uiColor
-         )
-         Spacer(modifier = Modifier.height(50.dp))
-         MyButton(
-             modifier = Modifier,
-             text = "Find Hospitals",
-             color = BlueGray,
-             colors = Color(0xFF7801D5)
-
-         )
-         Spacer(modifier = Modifier.height(30.dp))
-         CreateAccountWelcome()
-     }
+     WelcomeBody( navController)
  }
 }
 
 @Composable
-private fun ColumnScope.CreateAccountWelcome() {
+private fun WelcomeBody(
+    navController: NavController
+) {
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 10.dp, vertical = 30.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.Start
+    ) {
+        val uiColor = if (isSystemInDarkTheme()) Color.White else Color.Black
+        Text(
+            text = stringResource(id = R.string.Hospital),
+            style = MaterialTheme.typography.headlineMedium,
+            color = uiColor
+        )
+        Text(
+            text = stringResource(id = R.string.Finder),
+            style = MaterialTheme.typography.headlineSmall,
+            color = uiColor
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        Image(
+            modifier = Modifier
+                .clip(CircleShape),
+            painter = painterResource(id = R.drawable.hosp_building),
+            contentDescription = null
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = "Find Hospitals",
+            style = MaterialTheme.typography.headlineSmall,
+            color = uiColor
+        )
+        Text(
+            text = "Hospital Finder is the ultimate app for finding hospitals in your area." +
+                    "It provides detailed information about the location, services and " +
+                    "contact information of the hospitals around you ",
+            style = MaterialTheme.typography.bodyLarge,
+            color = uiColor
+        )
+        Spacer(modifier = Modifier.height(50.dp))
+        MyButton(
+             modifier = Modifier.clickable {
+                 navController.navigate(Screen.RegisterScreen.route)
+            },
+            text = "Find Hospitals",
+            color = BlueGray,
+            colors = Color(0xFF7801D5),
+            navController = navController,
+            destinationRoute = Screen.RegisterScreen.route
+        )
+        Spacer(modifier = Modifier.height(30.dp))
+        CreateAccountWelcome(navController)
+    }
+}
+
+@Composable
+private fun ColumnScope.CreateAccountWelcome(
+    navController: NavController
+) {
     val uiColor = if (isSystemInDarkTheme()) Color.White else Color.Black
     Text(
-        modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+        modifier = Modifier
+            .clickable {
+                navController.navigate(Screen.RegisterScreen.route)
+            }
+            .align(alignment = Alignment.CenterHorizontally),
         text = buildAnnotatedString {
             withStyle(
                 style = SpanStyle(
@@ -110,7 +132,7 @@ private fun ColumnScope.CreateAccountWelcome() {
                     color = uiColor,
                     fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                     fontWeight = FontWeight.Medium,
-                    fontFamily = Roboto
+                    fontFamily = Roboto,
 
                 )
             ) {
@@ -124,5 +146,5 @@ private fun ColumnScope.CreateAccountWelcome() {
 @Preview
 @Composable
 fun WelcomeScreenPreview() {
-    WelcomeScreen()
+    WelcomeScreen( navController = rememberNavController())
 }
